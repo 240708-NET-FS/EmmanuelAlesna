@@ -1,0 +1,26 @@
+- Idea: console app with portfolio tools
+  - Start with displaying all options
+    - Current stats, percentages of portfolio, totals
+    - Rebalancing
+    - Potentially projections
+  - Validate entries (no negative numbers, nonzero, only numbers)
+  - Have feature where portfolios can be saved into profiles that can also be loaded
+    - Profiles should be accessed using usernames and passwords
+  - Reach: visualize data using graphs
+  --------------
+  Database Stuff
+  - Have tables for each account, indexed by ID
+  - Have password hashes stored separately, linked to account ID
+  - Have password salts stored separately, linked to account ID
+
+  Account Table (account information):
+  - Account ID (auto generated)
+  - Username
+  - Password hash
+  Portfolio table (actual financial information):
+  - Foreign key on account ID
+  - All tickers as column, with holdings as values (should probably just have predefined columns)
+    - Or have all tickers in single column which holds all tickers and their values
+  Salts table:
+  - Foreign key on account ID
+  - Password salt
