@@ -5,13 +5,11 @@ namespace Project1.app;
 
 class Program
 {
-  public static void Main(string[] args)
-  {
-    using (var context = new ApplicationDbContext())
+    public static void Main(string[] args)
     {
-      var account = new Account {AccountUsername = "emmanuelalesna", AccountPassword = "abc123", AccountID = 0};
-      context.Accounts.Add(account);
-      context.SaveChanges();
+        using var context = new ApplicationDbContext();
+        var account = new Account { AccountUsername = "emmanuelalesna", AccountPassword = "abc123", AccountID = 0 };
+        context.Accounts.Add(account);
+        context.SaveChanges();
     }
-  }
 }
