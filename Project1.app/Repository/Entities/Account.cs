@@ -4,17 +4,19 @@ public class Account
   public int AccountID { get; set; }
   public string AccountUsername { get; set; }
   public string AccountPassword { get; set; }
+  public ICollection<Order> Orders { get; set; }
+
   // private double AccountBalance = 0;
 
   // public string Password
   // {
   //   get
   //   {
-  //     return AccountPassword;
+  //     return Password;
   //   }
   //   set
   //   {
-  //     AccountPassword = Passwords.HashPassword(value, out byte[] salt);
+  //     Password = Passwords.HashPassword(value, out byte[] salt);
   //   }
   // }
   // public double Balance

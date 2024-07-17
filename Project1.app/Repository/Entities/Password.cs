@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Project1.app.Repository.Entities;
 
-public class Passwords
+public class Password
 {
   private const int keySize = 64;
   private const int iterations = 350000;

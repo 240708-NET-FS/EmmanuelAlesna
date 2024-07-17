@@ -11,7 +11,7 @@ using Project1.app.Repository;
 namespace Project1.app.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240716195644_InitialCreate")]
+    [Migration("20240717131852_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -42,7 +42,43 @@ namespace Project1.app.Migrations
 
                     b.HasKey("AccountID");
 
+                    b.HasIndex("AccountID");
+
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Project1.app.Repository.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("AccountID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("AccountID");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Project1.app.Repository.Entities.Order", b =>
+                {
+                    b.HasOne("Project1.app.Repository.Entities.Account", "Account")
+                        .WithMany("Orders")
+                        .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Project1.app.Repository.Entities.Account", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

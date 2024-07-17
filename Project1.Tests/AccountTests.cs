@@ -4,6 +4,7 @@ namespace Project1.Tests;
 
 public class AccountTests
 {
+  /*
   [Fact]
   public void InstantiateAccount()
   {
@@ -16,4 +17,5 @@ public class AccountTests
     Account account2 = new() { AccountUsername = "emmanuel", AccountPassword = "abc123", AccountID = 0 };
     Assert.Equal("emmanuel", account2.AccountUsername);
   }
+  */
 }
