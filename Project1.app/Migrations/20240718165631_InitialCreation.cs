@@ -5,7 +5,7 @@
 namespace Project1.app.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,12 @@ namespace Project1.app.Migrations
                 {
                     AccountID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountUsername = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountPassword = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AAPL = table.Column<double>(type: "float", nullable: false),
+                    MSFT = table.Column<double>(type: "float", nullable: false),
+                    NVDA = table.Column<double>(type: "float", nullable: false),
+                    GOOG = table.Column<double>(type: "float", nullable: false),
+                    AMZN = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,40 +29,30 @@ namespace Project1.app.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Passwords",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountID = table.Column<int>(type: "int", nullable: false)
+                    PasswordID = table.Column<int>(type: "int", nullable: false),
+                    Hash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salt = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.OrderID);
+                    table.PrimaryKey("PK_Passwords", x => x.PasswordID);
                     table.ForeignKey(
-                        name: "FK_Orders_Accounts_AccountID",
-                        column: x => x.AccountID,
+                        name: "FK_Passwords_Accounts_PasswordID",
+                        column: x => x.PasswordID,
                         principalTable: "Accounts",
                         principalColumn: "AccountID",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_AccountID",
-                table: "Accounts",
-                column: "AccountID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_AccountID",
-                table: "Orders",
-                column: "AccountID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Passwords");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

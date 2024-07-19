@@ -1,4 +1,4 @@
-- Idea: console app with portfolio tools
+- Idea: console app with investment portfolio tools
   - Start with displaying all options
     - Current stats, percentages of portfolio, totals
     - Rebalancing
@@ -9,18 +9,18 @@
   - Reach: visualize data using graphs
   --------------
   Database Stuff
-  - Have tables for each account, indexed by ID
+  - Have tables for accounts, indexed by ID
   - Have password hashes stored separately, linked to account ID
   - Have password salts stored separately, linked to account ID
 
   Account Table (account information):
   - Account ID (auto generated)
   - Username
-  - Password hash
-  Portfolio table (actual financial information):
+  Portfolio table (actual financial information): [now combined with account table]
   - Foreign key on account ID
   - All tickers as column, with holdings as values (should probably just have predefined columns)
     - Or have all tickers in single column which holds all tickers and their values
-  Salts table:
+  Passwords table:
   - Foreign key on account ID
+  - Password hash
   - Password salt

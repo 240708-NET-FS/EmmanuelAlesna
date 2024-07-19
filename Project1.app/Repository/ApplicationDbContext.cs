@@ -11,25 +11,23 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext()
     { }
     public DbSet<Account> Accounts { get; set; }
-    // public DbSet<Password> Passwords { get; set; }
-    public DbSet<Order> Orders { get; set; }
+    public DbSet<Password> Passwords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // base.OnConfiguring(optionsBuilder);
         if (!optionsBuilder.IsConfigured)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // base.OnModelCreating(modelBuilder);
-        // modelBuilder.Entity<Account>().HasMany(a => a.Orders).WithOne(o => o.Account).HasForeignKey(a => a.OrderID);
-        modelBuilder.Entity<Account>().HasIndex(a => a.AccountID);
+        modelBuilder.Entity<Account>().HasOne(a => a.Password).WithOne(p => p.Account).HasForeignKey<Password>(p => p.PasswordID);
+        // modelBuilder.Entity<Account>().HasIndex(a => a.AccountID);
+        // modelBuilder.Entity<Order>().HasOne(o => o.Account).WithMany(a => a.Orders).HasForeignKey(o => o.AccountID);
     }
 
 }

@@ -29,44 +29,53 @@ namespace Project1.app.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AccountID"));
 
-                    b.Property<string>("AccountPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("AAPL")
+                        .HasColumnType("float");
 
-                    b.Property<string>("AccountUsername")
+                    b.Property<double>("AMZN")
+                        .HasColumnType("float");
+
+                    b.Property<double>("GOOG")
+                        .HasColumnType("float");
+
+                    b.Property<double>("MSFT")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NVDA")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccountID");
 
-                    b.HasIndex("AccountID");
-
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("Project1.app.Repository.Entities.Order", b =>
+            modelBuilder.Entity("Project1.app.Repository.Entities.Password", b =>
                 {
-                    b.Property<int>("OrderID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PasswordID")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+                    b.Property<string>("Hash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AccountID")
-                        .HasColumnType("int");
+                    b.Property<byte[]>("Salt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
-                    b.HasKey("OrderID");
+                    b.HasKey("PasswordID");
 
-                    b.HasIndex("AccountID");
-
-                    b.ToTable("Orders");
+                    b.ToTable("Passwords");
                 });
 
-            modelBuilder.Entity("Project1.app.Repository.Entities.Order", b =>
+            modelBuilder.Entity("Project1.app.Repository.Entities.Password", b =>
                 {
                     b.HasOne("Project1.app.Repository.Entities.Account", "Account")
-                        .WithMany("Orders")
-                        .HasForeignKey("AccountID")
+                        .WithOne("Password")
+                        .HasForeignKey("Project1.app.Repository.Entities.Password", "PasswordID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -75,7 +84,8 @@ namespace Project1.app.Migrations
 
             modelBuilder.Entity("Project1.app.Repository.Entities.Account", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Password")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

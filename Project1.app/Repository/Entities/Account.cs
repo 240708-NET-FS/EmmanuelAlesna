@@ -1,34 +1,17 @@
 namespace Project1.app.Repository.Entities;
 public class Account
 {
-  public int AccountID { get; set; }
-  public string AccountUsername { get; set; }
-  public string AccountPassword { get; set; }
-  public ICollection<Order> Orders { get; set; }
-
-  // private double AccountBalance = 0;
-
-  // public string Password
-  // {
-  //   get
-  //   {
-  //     return Password;
-  //   }
-  //   set
-  //   {
-  //     Password = Passwords.HashPassword(value, out byte[] salt);
-  //   }
-  // }
-  // public double Balance
-  // {
-  //   get
-  //   {
-  //     Console.WriteLine($"Your total balance is {AccountBalance}.");
-  //     return AccountBalance;
-  //   }
-  //   set
-  //   {
-  //     AccountBalance = value;
-  //   }
-  // }
+    public int AccountID { get; set; }
+    public string Username { get; set; }
+    public Password Password { get; set; }
+    // public ICollection<Ticker> doubles { get; set; }
+    public double AAPL { get; set; }
+    public double MSFT { get; set; }
+    public double NVDA { get; set; }
+    public double GOOG { get; set; }
+    public double AMZN { get; set; }
+    public override string ToString()
+    {
+        return $"{AccountID}, {Username}, {AAPL}, {MSFT}, {NVDA}, {GOOG}, {AMZN}";
+    }
 }
