@@ -20,4 +20,3 @@ For this individual project, you'll create a console application, where the appl
 
 - n-tier architecture
 - dependency injection
-****
