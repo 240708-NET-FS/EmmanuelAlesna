@@ -20,4 +20,5 @@ public static class PasswordUtilities
     var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
     return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
   }
+  
 }

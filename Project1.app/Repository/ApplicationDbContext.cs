@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Project1.app.Repository.Entities;
+using Project1.app.Utility;
 
 namespace Project1.app.Repository;
 
@@ -25,9 +26,21 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>().HasOne(a => a.Password).WithOne(p => p.Account).HasForeignKey<Password>(p => p.PasswordID);
-        // modelBuilder.Entity<Account>().HasIndex(a => a.AccountID);
-        // modelBuilder.Entity<Order>().HasOne(o => o.Account).WithMany(a => a.Orders).HasForeignKey(o => o.AccountID);
-    }
+        modelBuilder.Entity<Account>()
+        .HasOne(account => account.Password)
+        .WithOne(password => password.Account)
+        .HasForeignKey<Password>(password => password.PasswordID)
+        .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Account>().HasData(
+          new Account { AccountID = -1, Username = "test1" },
+          new Account { AccountID = -2, Username = "test2" }
+        );
+
+        modelBuilder.Entity<Password>().HasData(
+            new Password { PasswordID = -1, Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt },
+            new Password { PasswordID = -2, Hash = PasswordUtilities.HashPassword("123abc", out salt), Salt = salt }
+
+        );
+    }
 }

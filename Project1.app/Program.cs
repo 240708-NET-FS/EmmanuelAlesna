@@ -1,4 +1,5 @@
-﻿using Project1.app.Repository;
+﻿using Project1.app.Controller;
+using Project1.app.Repository;
 using Project1.app.Repository.DAO;
 using Project1.app.Repository.Entities;
 using Project1.app.Service;
@@ -11,6 +12,20 @@ class Program
     public static void Main(string[] args)
     {
         using var context = new ApplicationDbContext();
+        // AccountDAO accountDAO = new(context);
+        // PasswordDAO passwordDAO = new(context);
+
+        // AccountService accountService = new(accountDAO);
+        // PasswordService passwordService = new(passwordDAO);
+
+        // AccountController accountController = new(accountService);
+        MainController mainController = new(context);
+
+        mainController.LoginStart();
+
+        int? toNull = 3;
+        Console.WriteLine(toNull + 3);
+        /* using var context = new ApplicationDbContext();
         AccountDAO accountDAO = new(context);
         PasswordDAO passwordDAO = new(context);
         AccountService accountService = new(accountDAO);
@@ -40,6 +55,6 @@ class Program
 
         // DELETE
         accountService.Delete(account1);
-        accountService.GetByUsername("emmanuelalesna6");
+        accountService.GetByUsername("emmanuelalesna6"); */
     }
 }

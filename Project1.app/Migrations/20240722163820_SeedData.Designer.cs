@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project1.app.Repository;
 
@@ -10,9 +11,11 @@ using Project1.app.Repository;
 namespace Project1.app.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722163820_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +99,8 @@ namespace Project1.app.Migrations
                         new
                         {
                             PasswordID = -1,
-                            Hash = "5375D5C8A0B679DE9178212FA9A54E7FE564E3EEC479B9E61149E29487FC8F2D8D97224C7F8A3E7DF8997E9D1AA4D788C34CFD7937C401B8FCEB4BA91DB8A175",
-                            Salt = new byte[] { 204, 105, 7, 67, 49, 248, 78, 236, 103, 220, 5, 189, 206, 244, 213, 131, 124, 170, 144, 215, 200, 73, 55, 206, 192, 160, 33, 88, 181, 88, 245, 66, 122, 171, 213, 219, 253, 230, 216, 71, 37, 204, 5, 232, 30, 110, 244, 236, 169, 239, 159, 159, 55, 95, 221, 94, 71, 107, 94, 158, 160, 229, 52, 189 }
-                        },
-                        new
-                        {
-                            PasswordID = -2,
-                            Hash = "5D553F36FF17B4556D485940D5E5F5CD866319AD432A7548D8609B7B7F32953AD76D26432A6870B8E33240DF6E5923E3339B01B255269108B3A33860E853F07C",
-                            Salt = new byte[] { 39, 123, 245, 70, 104, 222, 186, 142, 191, 124, 251, 31, 143, 166, 18, 20, 162, 194, 136, 180, 39, 46, 253, 229, 225, 190, 85, 129, 114, 136, 220, 205, 56, 80, 226, 130, 0, 217, 229, 103, 57, 10, 182, 121, 101, 57, 17, 43, 140, 23, 205, 93, 65, 58, 251, 154, 241, 79, 123, 213, 7, 131, 222, 202 }
+                            Hash = "0CA637A1EC5BCC84A58FA334202DD0EE9540CDCDF171E7B9CDCE4F6F2DB4D01DC403B632894C186516BEB8DB1992B49954FE58A6ACA20C788FCCE0D3E706C7F6",
+                            Salt = new byte[] { 59, 49, 192, 206, 162, 145, 166, 92, 108, 25, 216, 255, 7, 24, 243, 113, 124, 85, 196, 152, 67, 71, 62, 154, 47, 18, 206, 174, 187, 17, 197, 168, 245, 59, 165, 26, 253, 149, 224, 8, 226, 29, 136, 203, 22, 105, 176, 123, 211, 215, 196, 193, 115, 155, 80, 188, 17, 46, 58, 33, 82, 77, 41, 41 }
                         });
                 });
 

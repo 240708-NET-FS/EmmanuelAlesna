@@ -1,5 +1,4 @@
 using System.Data;
-using Microsoft.Extensions.FileProviders;
 using Project1.app.Repository.DAO;
 using Project1.app.Repository.Entities;
 using Project1.app.Utility;
@@ -126,18 +125,34 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
         }
     }
 
-    public void Login(string username, string password)
+    public bool Login(string username, string password)
     {
-        var retrievedPassword = _accountDAO.Login(username);
-        var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
-        if (result)
+        if (username.Length > 0 && password.Length > 0)
         {
-            Console.WriteLine("Login successful!");
-            State.StateAccount = _accountDAO.GetByUsername(username);
+            if (_accountDAO.GetByUsername(username) != null)
+            {
+                var retrievedPassword = _accountDAO.Login(username);
+                var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
+                if (result)
+                {
+                    Console.WriteLine("Login successful!");
+                    State.StateAccount = _accountDAO.GetByUsername(username);
+                }
+                else
+                {
+                    Console.WriteLine("Error: incorrect password.");
+                }
+                return result;
+            }
+            else
+            {
+                Console.WriteLine("Error: that username does not exist.");
+            }
         }
         else
         {
-            Console.WriteLine("Incorrect credentials.");
+            Console.WriteLine("Error: username and/or password cannot be empty.");
         }
+        return false;
     }
 }

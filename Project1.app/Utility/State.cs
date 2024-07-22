@@ -4,5 +4,7 @@ namespace Project1.app.Utility;
 
 public static class State
 {
-    public static Account StateAccount { get; set; }
+    public static bool StateRunning { get; set; } = true;
+    public static Account StateAccount { get; set; } = new Account();
+
 }
