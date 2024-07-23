@@ -11,12 +11,12 @@ public class StockController(ApplicationDbContext context)
         {
             Console.WriteLine($"Welcome, {State.StateAccount.Username}! Please select an option from those given below.");
             Console.WriteLine("""
-        1) View all stocks
+        1) View your stocks
         2) Set stock values
         3) View basic stats
         4) Create projection graphic
         5) View fund allocation tool
-        6) Quit
+        6) Log out
         """);
             Console.Write("> ");
             var input = Console.ReadLine();
@@ -26,10 +26,20 @@ public class StockController(ApplicationDbContext context)
                 {
                     case 1:
                         // view all stocks
-                        string hello = "helloworld";
-                        string[] helloArray = hello.Split();
-                        Array.Reverse(helloArray);
-                        Console.WriteLine(string.Join("", helloArray));
+                        Console.WriteLine($"AAPL: {State.StateAccount.AAPL}, MSFT: {State.StateAccount.MSFT}, NVDA: {State.StateAccount.NVDA}, GOOG: {State.StateAccount.GOOG}, AMZN: {State.StateAccount.AMZN}");
+                        Console.WriteLine();
+                        break;
+                    case 2:
+                        // change stocks
+                        break;
+                    case 3:
+                        // view percentages
+                        break;
+                    case 4:
+                        // create simple graph
+                        break;
+                    case 5:
+                        // fund allocation calculation
                         break;
                     case 6:
                         QuitController.Quit();

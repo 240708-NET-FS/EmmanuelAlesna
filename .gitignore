@@ -1,5 +1,7 @@
 Project1.Tests/bin
 Project1.Tests/obj
+
 Project1.app/bin
 Project1.app/obj
+Project1.app/Migrations
 Project1.app/appsettings.json

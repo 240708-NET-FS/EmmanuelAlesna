@@ -11,8 +11,6 @@ class MainController(ApplicationDbContext context)
     readonly AccountDAO accountDAO = new(context);
     public void LoginStart()
     {
-        while (State.StateRunning)
-        {
             if (State.StateAccount.Username != null)
             {
                 StockController stockController = new(context);
@@ -35,9 +33,11 @@ class MainController(ApplicationDbContext context)
                 {
                     case 1:
                         accountController.Create();
+                        State.StateRunning = true;
                         break;
                     case 2:
                         accountController.Login();
+                        State.StateRunning = true;
                         break;
                     case 3:
                         QuitController.Quit();
@@ -51,7 +51,5 @@ class MainController(ApplicationDbContext context)
             {
                 Console.WriteLine("Error: please enter a valid number.");
             }
-        }
-
     }
 }

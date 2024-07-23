@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Project1.app.Repository;
 using Project1.app.Repository.DAO;
 using Project1.app.Repository.Entities;
@@ -29,12 +28,13 @@ public class AccountTests
   [Fact]
   public void ShouldVerifyCorrectPassword()
   {
+    // arrange
     Account account1 = new() { Username = "emmanuel", Password = new Password() { Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt } };
     accountService.CreateEntity(account1);
-
+    // act
     var passResult = accountService.Login("emmanuel", "abc123");
     var failResult = accountService.Login("emmanuel", "abcd123");
-
+    // assert
     Assert.True(passResult);
     Assert.False(failResult);
 

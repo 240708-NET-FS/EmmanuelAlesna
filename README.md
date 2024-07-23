@@ -10,9 +10,9 @@ For this individual project, you'll create a console application, where the appl
 
 - The application should be a C# Console Application (x)
 - The application should build and run  (x)
-- The application should interact with users, and provide some console UI
+- The application should interact with users, and provide some console UI (x)
 - The application should demonstrate some input validation (x)
-- The application should have unit tests
+- The application should have unit tests (x)
 - The application should persist data to a SQL Server database (x)
 - The application should communicate to DB via EF Core (Entity Framework Core) (x)
 
