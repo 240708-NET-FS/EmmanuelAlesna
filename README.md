@@ -18,5 +18,5 @@ For this individual project, you'll create a console application, where the appl
 
 ## Nice to Have
 
-- n-tier architecture
+- n-tier architecture (x)
 - dependency injection

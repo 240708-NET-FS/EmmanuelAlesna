@@ -8,7 +8,6 @@ namespace Project1.app.Service;
 public class AccountService(AccountDAO accountDAO) : IService<Account>
 {
     private readonly AccountDAO _accountDAO = accountDAO;
-
     public void CreateEntity(Account item)
     {
         try
