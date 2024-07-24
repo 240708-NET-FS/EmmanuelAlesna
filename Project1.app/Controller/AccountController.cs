@@ -20,7 +20,7 @@ public class AccountController(AccountService service)
         Account account1 = new()
         {
             Username = username,
-            Password = new Password() { Hash = PasswordUtilities.HashPassword(password, out byte[] salt), Salt = salt }
+            Password = new Password() { Hash = PasswordUtilities.HashPassword(password!, out byte[] salt), Salt = salt }
         };
         accountService.CreateEntity(account1);
 
@@ -34,6 +34,6 @@ public class AccountController(AccountService service)
         var username = Console.ReadLine();
         Console.Write("Password: ");
         var password = Console.ReadLine();
-        accountService.Login(username, password);
+        accountService.Login(username!, password!);
     }
 }

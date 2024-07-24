@@ -131,17 +131,20 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
             if (_accountDAO.GetByUsername(username) != null)
             {
                 var retrievedPassword = _accountDAO.Login(username);
-                var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
-                if (result)
+                if (retrievedPassword.Hash != null && retrievedPassword.Salt != null)
                 {
-                    Console.WriteLine("Login successful!");
-                    State.StateAccount = _accountDAO.GetByUsername(username);
+                    var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
+                    if (result)
+                    {
+                        Console.WriteLine("Login successful!");
+                        State.StateAccount = _accountDAO.GetByUsername(username);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: incorrect password.");
+                    }
+                    return result;
                 }
-                else
-                {
-                    Console.WriteLine("Error: incorrect password.");
-                }
-                return result;
             }
             else
             {

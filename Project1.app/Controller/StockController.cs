@@ -32,7 +32,15 @@ public class StockController(ApplicationDbContext context)
                     case 2:
                         // change stocks
                         StockService stockService = new(context);
-                        stockService.ChangeStocks();
+
+                        Console.WriteLine("Enter the name of the stock you wish to change.");
+                        Console.Write("> ");
+                        var stockToChange = Console.ReadLine();
+
+                        Console.WriteLine("Enter the new amount.");
+                        Console.Write("> ");
+                        var newAmount = Console.ReadLine();
+                        stockService.ChangeStocks(stockToChange!, newAmount!);
                         break;
                     case 3:
                         // view percentages
@@ -40,11 +48,34 @@ public class StockController(ApplicationDbContext context)
                         break;
                     case 4:
                         // create simple graph
-                        StockService.CreateGraph();
+                        Console.WriteLine("Enter a stock name.");
+                        Console.Write("> ");
+                        var stock = Console.ReadLine();
+
+                        Console.WriteLine("Enter a yearly percent yield, as an integer.");
+                        Console.Write("> ");
+                        var percentYield = Console.ReadLine();
+
+                        Console.WriteLine("Enter a time duration, in years.");
+                        Console.Write("> ");
+                        var years = Console.ReadLine();
+
+                        Console.WriteLine("Enter a file name. Please leave out the file extension.");
+                        Console.Write("> ");
+                        var fileName = Console.ReadLine();
+
+                        StockService.CreateGraph(stock!, percentYield!, years!, fileName!);
                         break;
                     case 5:
                         // fund allocation calculation
-                        StockService.TargetPercent();
+                        Console.WriteLine("Enter the name of the stock you wish to calculate.");
+                        Console.Write("> ");
+                        var stockToCalc = Console.ReadLine();
+
+                        Console.WriteLine("Enter the target percentage as a whole number.");
+                        Console.Write("> ");
+                        var target = Console.ReadLine();
+                        StockService.TargetPercent(stockToCalc!, target!);
                         break;
                     case 6:
                         QuitController.Quit();

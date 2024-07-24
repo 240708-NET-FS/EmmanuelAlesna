@@ -45,7 +45,6 @@ namespace Project1.app.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccountID");
@@ -56,11 +55,11 @@ namespace Project1.app.Migrations
                         new
                         {
                             AccountID = -1,
-                            AAPL = 0.0,
-                            AMZN = 0.0,
-                            GOOG = 0.0,
-                            MSFT = 0.0,
-                            NVDA = 0.0,
+                            AAPL = 10000.0,
+                            AMZN = 3.0,
+                            GOOG = 342432.0,
+                            MSFT = 29909.0,
+                            NVDA = 12312312.0,
                             Username = "test1"
                         },
                         new
@@ -81,11 +80,9 @@ namespace Project1.app.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Hash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Salt")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("PasswordID");
@@ -96,14 +93,14 @@ namespace Project1.app.Migrations
                         new
                         {
                             PasswordID = -1,
-                            Hash = "5375D5C8A0B679DE9178212FA9A54E7FE564E3EEC479B9E61149E29487FC8F2D8D97224C7F8A3E7DF8997E9D1AA4D788C34CFD7937C401B8FCEB4BA91DB8A175",
-                            Salt = new byte[] { 204, 105, 7, 67, 49, 248, 78, 236, 103, 220, 5, 189, 206, 244, 213, 131, 124, 170, 144, 215, 200, 73, 55, 206, 192, 160, 33, 88, 181, 88, 245, 66, 122, 171, 213, 219, 253, 230, 216, 71, 37, 204, 5, 232, 30, 110, 244, 236, 169, 239, 159, 159, 55, 95, 221, 94, 71, 107, 94, 158, 160, 229, 52, 189 }
+                            Hash = "0AA5B38A63972FFD78D3DDC62649DF1EAF6C85572EB5DFB3DC2CFC1C482D0B3F453E501462A723B08B0591EC179C88D622C6FEB59EA70364D82157999965DC6F",
+                            Salt = new byte[] { 165, 60, 64, 158, 37, 181, 36, 249, 24, 78, 178, 186, 100, 7, 229, 104, 100, 213, 27, 247, 79, 210, 107, 20, 23, 156, 52, 208, 196, 25, 22, 36, 107, 251, 222, 206, 130, 7, 233, 61, 38, 243, 172, 40, 233, 75, 190, 135, 85, 171, 35, 44, 242, 27, 202, 240, 12, 132, 111, 218, 3, 97, 199, 159 }
                         },
                         new
                         {
                             PasswordID = -2,
-                            Hash = "5D553F36FF17B4556D485940D5E5F5CD866319AD432A7548D8609B7B7F32953AD76D26432A6870B8E33240DF6E5923E3339B01B255269108B3A33860E853F07C",
-                            Salt = new byte[] { 39, 123, 245, 70, 104, 222, 186, 142, 191, 124, 251, 31, 143, 166, 18, 20, 162, 194, 136, 180, 39, 46, 253, 229, 225, 190, 85, 129, 114, 136, 220, 205, 56, 80, 226, 130, 0, 217, 229, 103, 57, 10, 182, 121, 101, 57, 17, 43, 140, 23, 205, 93, 65, 58, 251, 154, 241, 79, 123, 213, 7, 131, 222, 202 }
+                            Hash = "6370ACC2B878A2013D4EA35A6FEDADA1205BF7E45412A9E442F1957F0FCA4E3945036095DF05842C29956F24304665CA6C0D68FD904D212CF2DD0D8B9F7B2E0D",
+                            Salt = new byte[] { 26, 137, 202, 158, 225, 46, 129, 45, 214, 212, 4, 192, 162, 217, 132, 215, 188, 3, 110, 79, 198, 234, 10, 70, 220, 109, 151, 146, 180, 199, 252, 133, 116, 185, 165, 203, 84, 95, 152, 164, 94, 135, 64, 142, 116, 214, 244, 84, 60, 113, 165, 241, 234, 188, 64, 26, 149, 137, 70, 153, 114, 185, 54, 38 }
                         });
                 });
 
@@ -120,8 +117,7 @@ namespace Project1.app.Migrations
 
             modelBuilder.Entity("Project1.app.Repository.Entities.Account", b =>
                 {
-                    b.Navigation("Password")
-                        .IsRequired();
+                    b.Navigation("Password");
                 });
 #pragma warning restore 612, 618
         }

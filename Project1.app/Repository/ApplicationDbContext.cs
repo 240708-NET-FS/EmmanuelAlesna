@@ -33,7 +33,7 @@ public class ApplicationDbContext : DbContext
         .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Account>().HasData(
-          new Account { AccountID = -1, Username = "test1" },
+          new Account { AccountID = -1, Username = "test1", AAPL = 10000, MSFT = 29909, NVDA = 12312312, GOOG = 342432, AMZN = 3},
           new Account { AccountID = -2, Username = "test2" }
         );
 
