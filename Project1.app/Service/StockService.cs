@@ -11,8 +11,14 @@ public class StockService(ApplicationDbContext context)
     readonly AccountDAO accountDAO = new(context);
     public static void ViewStocks()
     {
-        Console.WriteLine($"AAPL: {State.StateAccount.AAPL}, MSFT: {State.StateAccount.MSFT}, NVDA: {State.StateAccount.NVDA}, GOOG: {State.StateAccount.GOOG}, AMZN: {State.StateAccount.AMZN}");
-        Console.WriteLine();
+        Console.WriteLine($"""
+        AAPL: {State.StateAccount.AAPL}
+        MSFT: {State.StateAccount.MSFT}
+        NVDA: {State.StateAccount.NVDA}
+        GOOG: {State.StateAccount.GOOG}
+        AMZN: {State.StateAccount.AMZN}
+
+        """);
     }
     public void ChangeStocks(string stock, string amount)
     {
@@ -24,13 +30,13 @@ public class StockService(ApplicationDbContext context)
             if (int.TryParse(amount, out int result) && result > 0)
             {
                 account.SetAsString(stock, result);
+                accountService.Update(account);
+                Console.WriteLine($"{stock} changed to {amount}.");
             }
             else
             {
                 Console.WriteLine("Error: invalid number.");
             }
-            accountService.Update(account);
-            Console.WriteLine($"{stock} changed to {amount}.");
         }
         else
         {
@@ -39,19 +45,30 @@ public class StockService(ApplicationDbContext context)
     }
     public static void ViewStockPercents()
     {
-        Console.WriteLine($"AAPL: {Math.Round(State.StateAccount.AAPL / State.StateAccount.GetTotal(), 4) * 100}%");
-        Console.WriteLine($"MSFT: {Math.Round(State.StateAccount.MSFT / State.StateAccount.GetTotal(), 4) * 100}%");
-        Console.WriteLine($"NVDA: {Math.Round(State.StateAccount.NVDA / State.StateAccount.GetTotal(), 4) * 100}%");
-        Console.WriteLine($"GOOG: {Math.Round(State.StateAccount.GOOG / State.StateAccount.GetTotal(), 4) * 100}%");
-        Console.WriteLine($"AMZN: {Math.Round(State.StateAccount.AMZN / State.StateAccount.GetTotal(), 4) * 100}%");
-        Console.WriteLine();
+        Console.WriteLine($"""
+        AAPL: {Math.Round(State.StateAccount.AAPL / State.StateAccount.GetTotal(), 4) * 100}%
+        MSFT: {Math.Round(State.StateAccount.MSFT / State.StateAccount.GetTotal(), 4) * 100}%
+        NVDA: {Math.Round(State.StateAccount.NVDA / State.StateAccount.GetTotal(), 4) * 100}%
+        GOOG: {Math.Round(State.StateAccount.GOOG / State.StateAccount.GetTotal(), 4) * 100}%
+        AMZN: {Math.Round(State.StateAccount.AMZN / State.StateAccount.GetTotal(), 4) * 100}%
+
+        """);
     }
     public static void CreateGraph(string stock, string percentYield, string years, string fileName)
     {
         if (stock != null && percentYield != null && years != null && fileName != null)
         {
-            double stockValue = State.StateAccount.GetAsString(stock);
-            if (int.TryParse(percentYield, out int percentInt) && int.TryParse(years, out int yearsInt))
+            double stockValue;
+            try
+            {
+                stockValue = State.StateAccount.GetAsString(stock);
+            }
+            catch (InvalidDataException e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            if (int.TryParse(percentYield, out int percentInt) && int.TryParse(years, out int yearsInt) && yearsInt > 0)
             {
                 ArrayList x = [];
                 ArrayList y = [];
@@ -80,8 +97,17 @@ public class StockService(ApplicationDbContext context)
     {
         if (stock != null && amount != null)
         {
-            double heldAmount = State.StateAccount.GetAsString(stock!);
-            if (int.TryParse(amount, out int result) && result >= 0)
+            double heldAmount;
+            try
+            {
+                heldAmount = State.StateAccount.GetAsString(stock!);
+            }
+            catch (InvalidDataException e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            if (int.TryParse(amount, out int result) && result >= 0 && result <= 100)
             {
                 double res = ((result / (double)100 * State.StateAccount.GetTotal()) - heldAmount) / (1 - (result / (double)100));
                 if (res > 0)

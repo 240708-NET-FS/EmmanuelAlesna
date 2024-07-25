@@ -17,19 +17,24 @@ public class AccountController(AccountService service)
         var username = Console.ReadLine();
         Console.Write("Password: ");
         var password = Console.ReadLine();
-        Account account1 = new()
+        if (password != null && password.Length > 0)
         {
-            Username = username,
-            Password = new Password() { Hash = PasswordUtilities.HashPassword(password!, out byte[] salt), Salt = salt }
-        };
-        accountService.CreateEntity(account1);
+            Account account1 = new()
+            {
+                Username = username,
+                Password = new Password() { Hash = PasswordUtilities.HashPassword(password, out byte[] salt), Salt = salt }
+            };
+            accountService.CreateEntity(account1);
+        }
+        else
+        {
+            Console.WriteLine("Error: password cannot be null.");
+        }
 
     }
     public void Login()
     {
-        Console.WriteLine("""
-        Please enter your username and password.
-        """);
+        Console.WriteLine("Please enter your username and password.");
         Console.Write("Username: ");
         var username = Console.ReadLine();
         Console.Write("Password: ");

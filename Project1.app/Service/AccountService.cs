@@ -12,7 +12,7 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
     {
         try
         {
-            if (item.Username != null && item.Password != null)
+            if (item.Username.Length > 0)
             {
                 var existingUser = _accountDAO.GetByUsername(item.Username);
                 if (existingUser == null)
@@ -36,7 +36,6 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
             {
                 Console.WriteLine(e);
             }
-            throw;
         }
     }
 
