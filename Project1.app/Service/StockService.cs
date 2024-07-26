@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using Project1.app.Repository;
 using Project1.app.Repository.DAO;
 using Project1.app.Repository.Entities;
@@ -22,25 +23,35 @@ public class StockService(ApplicationDbContext context)
     }
     public void ChangeStocks(string stock, string amount)
     {
-        AccountService accountService = new(accountDAO);
-        Account account = State.StateAccount;
-
-        if (stock != null && amount != null)
+        try
         {
-            if (int.TryParse(amount, out int result) && result > 0)
+            AccountService accountService = new(accountDAO);
+            Account account = State.StateAccount;
+
+            if (stock != null && amount != null)
             {
-                account.SetAsString(stock, result);
-                accountService.Update(account);
-                Console.WriteLine($"{stock} changed to {amount}.");
+                if (int.TryParse(amount, out int result) && result > 0)
+                {
+                    account.SetAsString(stock, result);
+                    accountService.Update(account);
+                    Console.WriteLine($"{stock} changed to {amount}.");
+                }
+                else
+                {
+                    throw new InvalidDataException("Invalid number.");
+                }
             }
             else
             {
-                Console.WriteLine("Error: invalid number.");
+                throw new NoNullAllowedException("Stock name and/or amount cannot be null.");
             }
         }
-        else
+        catch (Exception e)
         {
-            Console.WriteLine("Error: stock name and/or amount cannot be null.");
+            if (e is InvalidDataException || e is NoNullAllowedException)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
     public static void ViewStockPercents()
@@ -56,82 +67,105 @@ public class StockService(ApplicationDbContext context)
     }
     public static void CreateGraph(string stock, string percentYield, string years, string fileName)
     {
-        if (stock != null && percentYield != null && years != null && fileName != null)
+        try
         {
-            double stockValue;
-            try
+            if (stock.Length > 0 && percentYield.Length > 0 && years.Length > 0 && fileName.Length > 0)
             {
-                stockValue = State.StateAccount.GetAsString(stock);
-            }
-            catch (InvalidDataException e)
-            {
-                Console.WriteLine(e);
-                return;
-            }
-            if (int.TryParse(percentYield, out int percentInt) && int.TryParse(years, out int yearsInt) && yearsInt > 0)
-            {
-                ArrayList x = [];
-                ArrayList y = [];
-                Console.WriteLine($"PercentInt: {percentInt}");
-                for (int i = 0; i < yearsInt; i++)
+                double stockValue;
+                try
                 {
-                    x.Add(DateTime.Now.Year + i);
-                    y.Add(stockValue);
-                    stockValue *= 1 + (percentInt / (double)100);
+                    stockValue = State.StateAccount.GetAsString(stock);
                 }
-                object[] xs = x.ToArray();
-                object[] ys = y.ToArray();
-                ScottPlot.Plot myPlot = new();
-                myPlot.Add.Scatter(xs, ys);
-                myPlot.SavePng(fileName + ".png", 400, 300);
-                Console.WriteLine("Graph saved!");
-                Console.WriteLine();
+                catch (InvalidDataException e)
+                {
+                    Console.WriteLine(e);
+                    return;
+                }
+                if (int.TryParse(percentYield, out int percentInt) && int.TryParse(years, out int yearsInt) && yearsInt > 0)
+                {
+                    ArrayList x = [];
+                    ArrayList y = [];
+                    Console.WriteLine($"PercentInt: {percentInt}");
+                    for (int i = 0; i < yearsInt; i++)
+                    {
+                        x.Add(DateTime.Now.Year + i);
+                        y.Add(stockValue);
+                        stockValue *= 1 + (percentInt / (double)100);
+                    }
+                    object[] xs = x.ToArray();
+                    object[] ys = y.ToArray();
+                    ScottPlot.Plot myPlot = new();
+                    myPlot.Add.Scatter(xs, ys);
+                    myPlot.SavePng(fileName + ".png", 400, 300);
+                    Console.WriteLine("Graph saved!");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    throw new InvalidDataException("Invalid numbers.");
+                }
             }
             else
             {
-                Console.WriteLine("Error: invalid numbers.");
+                throw new NoNullAllowedException("Inputs cannot be null.");
+            }
+        }
+        catch (Exception e)
+        {
+            if (e is InvalidDataException || e is NoNullAllowedException)
+            {
+                Console.WriteLine(e);
             }
         }
     }
     public static void TargetPercent(string stock, string amount)
     {
-        if (stock != null && amount != null)
+        try
         {
-            double heldAmount;
-            try
+            if (stock != null && amount != null)
             {
-                heldAmount = State.StateAccount.GetAsString(stock!);
-            }
-            catch (InvalidDataException e)
-            {
-                Console.WriteLine(e);
-                return;
-            }
-            if (int.TryParse(amount, out int result) && result >= 0 && result <= 100)
-            {
-                double res = ((result / (double)100 * State.StateAccount.GetTotal()) - heldAmount) / (1 - (result / (double)100));
-                if (res > 0)
+                double heldAmount;
+                try
                 {
-                    Console.WriteLine($"You need to buy ${res} to reach {result}%.");
+                    heldAmount = State.StateAccount.GetAsString(stock!);
                 }
-                else if (res < 0)
+                catch (InvalidDataException e)
                 {
-                    Console.WriteLine($"You need to sell ${res} to reach {result}%.");
+                    Console.WriteLine(e);
+                    return;
+                }
+                if (int.TryParse(amount, out int result) && result >= 0 && result <= 100)
+                {
+                    double res = ((result / (double)100 * State.StateAccount.GetTotal()) - heldAmount) / (1 - (result / (double)100));
+                    if (res > 0)
+                    {
+                        Console.WriteLine($"You need to buy ${res} to reach {result}%.");
+                    }
+                    else if (res < 0)
+                    {
+                        Console.WriteLine($"You need to sell ${res} to reach {result}%.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The chosen stock is already at {result}%.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"The chosen stock is already at {result}%.");
+                    throw new InvalidDataException("Invalid number.");
                 }
             }
             else
             {
-                Console.WriteLine("Error: invalid number.");
+                throw new NoNullAllowedException("Stock name and/or amount cannot be null.");
             }
-            Console.WriteLine();
         }
-        else
+        catch (Exception e)
         {
-            Console.WriteLine("Error: stock name/amount cannot be null.");
+            if (e is InvalidDataException || e is NoNullAllowedException)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

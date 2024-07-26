@@ -4,7 +4,6 @@ public class Account
     public int AccountID { get; set; }
     public string Username { get; set; }
     public Password? Password { get; set; }
-    // public ICollection<Ticker> doubles { get; set; }
     public double AAPL { get; set; } = 0;
     public double MSFT { get; set; } = 0;
     public double NVDA { get; set; } = 0;

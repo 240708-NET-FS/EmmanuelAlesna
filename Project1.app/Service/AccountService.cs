@@ -125,35 +125,46 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
 
     public bool Login(string username, string password)
     {
-        if (username.Length > 0 && password.Length > 0)
+        try
         {
-            if (_accountDAO.GetByUsername(username) != null)
+            if (username.Length > 0 && password.Length > 0)
             {
-                var retrievedPassword = _accountDAO.Login(username);
-                if (retrievedPassword.Hash != null && retrievedPassword.Salt != null)
+                if (_accountDAO.GetByUsername(username) != null)
                 {
-                    var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
-                    if (result)
+                    var retrievedPassword = _accountDAO.Login(username);
+                    if (retrievedPassword.Hash != null && retrievedPassword.Salt != null)
                     {
-                        Console.WriteLine("Login successful!");
-                        State.StateAccount = _accountDAO.GetByUsername(username);
+                        var result = PasswordUtilities.VerifyPassword(password, retrievedPassword.Hash, retrievedPassword.Salt);
+                        if (result)
+                        {
+                            Console.WriteLine("Login successful!");
+                            State.StateAccount = _accountDAO.GetByUsername(username);
+                        }
+                        else
+                        {
+                            throw new InvalidDataException("Incorrect password.");
+                        }
+                        return result;
                     }
-                    else
-                    {
-                        Console.WriteLine("Error: incorrect password.");
-                    }
-                    return result;
+                }
+                else
+                {
+                    throw new InvalidDataException("That username does not exist.");
                 }
             }
             else
             {
-                Console.WriteLine("Error: that username does not exist.");
+                throw new NoNullAllowedException("Username and/or password cannot be empty.");
             }
+            return false;
         }
-        else
+        catch (Exception e)
         {
-            Console.WriteLine("Error: username and/or password cannot be empty.");
+            if (e is InvalidDataException || e is NoNullAllowedException)
+            {
+                Console.WriteLine(e);
+            }
+            return false;
         }
-        return false;
     }
 }

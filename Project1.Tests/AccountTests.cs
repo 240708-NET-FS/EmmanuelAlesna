@@ -8,7 +8,6 @@ namespace Project1.Tests;
 
 public class AccountTests
 {
-
   static readonly ApplicationDbContext _context = new();
   static readonly AccountDAO accountDAO = new(_context);
   static readonly AccountService accountService = new(accountDAO);

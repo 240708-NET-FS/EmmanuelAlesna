@@ -31,14 +31,5 @@ public class PasswordDAO(ApplicationDbContext context) : IDAO<Password>
 
     public void Update(Password newItem)
     {
-        // Password password = _context.Passwords.Include(p => p.Account).FirstOrDefault(p => p.Account.AccountID == account.AccountID);
-        // Password originalPassword = _context.Passwords.FirstOrDefault(p => p.PasswordID == newItem.PasswordID);
-        // if (originalPassword != null)
-        // {
-        //     originalPassword.Hash = newItem.Hash;
-        //     originalPassword.Salt = newItem.Salt;
-        //     _context.Passwords.Update(originalPassword);
-        //     _context.SaveChanges();
-        // }
     }
 }
