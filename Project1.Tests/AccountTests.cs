@@ -15,21 +15,19 @@ public class AccountTests
   [Fact]
   public void ShouldReturnCorrectUsername()
   {
-    Account account1 = new() { Username = "emmanuel", Password = new Password() { Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt } };
-    accountService.CreateEntity(account1);
+    accountService.CreateEntity(["emmanuel", "abc123"]);
 
     var account = accountService.GetByUsername("emmanuel");
 
     Assert.Equal("emmanuel", account.Username);
-    accountService.Delete(account1);
+    accountService.VerifiedDelete("emmanuel", "abc123");
   }
 
   [Fact]
   public void ShouldVerifyCorrectPassword()
   {
     // arrange
-    Account account1 = new() { Username = "emmanuel", Password = new Password() { Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt } };
-    accountService.CreateEntity(account1);
+    accountService.CreateEntity(["emmanuel", "abc123"]);
     // act
     var passResult = accountService.Login("emmanuel", "abc123");
     var failResult = accountService.Login("emmanuel", "abcd123");
@@ -37,16 +35,15 @@ public class AccountTests
     Assert.True(passResult);
     Assert.False(failResult);
 
-    accountService.Delete(account1);
+    accountService.VerifiedDelete("emmanuel", "abc123");
   }
 
   [Fact]
   public void ShouldUpdateAAPL()
   {
     // Given
-    Account oldAccount = new() { Username = "old", Password = new Password() { Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt } };
-    accountService.CreateEntity(oldAccount);
-    Account newAccount = oldAccount;
+    accountService.CreateEntity(["old", "abc123"]);
+    Account newAccount = accountService.GetByUsername("old");
     newAccount.AAPL = 10000;
     // When
     accountService.Update(newAccount);
@@ -61,10 +58,9 @@ public class AccountTests
   public void ShouldDelete()
   {
     // Given
-    Account toDelete = new() { Username = "old", Password = new Password() { Hash = PasswordUtilities.HashPassword("abc123", out byte[] salt), Salt = salt } };
-    accountService.CreateEntity(toDelete);
+    accountService.CreateEntity(["old", "abc123"]);
     // When
-    accountService.Delete(toDelete);
+    accountService.VerifiedDelete("old", "abc123");
     // Then
     try
     {

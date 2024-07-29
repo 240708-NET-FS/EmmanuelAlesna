@@ -8,16 +8,18 @@ namespace Project1.app.Service;
 public class AccountService(AccountDAO accountDAO) : IService<Account>
 {
     private readonly AccountDAO _accountDAO = accountDAO;
-    public void CreateEntity(Account item)
+    public void CreateEntity(string[] details)
     {
+        string username = details[0];
+        string password = details[1];
         try
         {
-            if (item.Username.Length > 0)
+            if (username.Length > 0 && password.Length > 0)
             {
-                var existingUser = _accountDAO.GetByUsername(item.Username);
+                var existingUser = _accountDAO.GetByUsername(username);
                 if (existingUser == null)
                 {
-                    _accountDAO.Create(item);
+                    _accountDAO.Create([username, password]);
                     Console.WriteLine("Account saved successfully!");
                 }
                 else
@@ -44,6 +46,27 @@ public class AccountService(AccountDAO accountDAO) : IService<Account>
         try
         {
             _accountDAO.Delete(item);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    public void VerifiedDelete(string username, string password)
+    {
+        try
+        {
+            Account account = GetByUsername(username);
+            if (Login(account.Username, password))
+            {
+                Delete(account);
+                Console.WriteLine("Account deleted successfully.");
+            }
+            else
+            {
+                throw new InvalidDataException("Incorrect password. Returning to main menu.");
+            }
         }
         catch (Exception e)
         {

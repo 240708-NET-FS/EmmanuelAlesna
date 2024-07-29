@@ -21,7 +21,8 @@ class MainController(ApplicationDbContext context)
         Welcome to my investment portfolio app! Please select an option from those given below.
         1) Create account
         2) Login
-        3) Quit
+        3) Delete account
+        4) Quit
         """
         );
         Console.Write("> ");
@@ -40,6 +41,10 @@ class MainController(ApplicationDbContext context)
                     State.StateRunning = true;
                     break;
                 case 3:
+                    accountController.Delete();
+                    State.StateRunning = true;
+                    break;
+                case 4:
                     QuitController.Quit();
                     break;
                 default:

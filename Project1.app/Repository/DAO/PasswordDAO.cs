@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project1.app.Repository.Entities;
+using Project1.app.Utility;
 
 namespace Project1.app.Repository.DAO;
 
@@ -7,9 +8,10 @@ public class PasswordDAO(ApplicationDbContext context) : IDAO<Password>
 {
     private readonly ApplicationDbContext _context = context;
 
-    public void Create(Password item)
+    public void Create(string[] details)
     {
-        _context.Add(item);
+        Password password = new() { Hash = PasswordUtilities.HashPassword(details[0], out byte[] salt), Salt = salt };
+        _context.Add(password);
         _context.SaveChanges();
     }
 

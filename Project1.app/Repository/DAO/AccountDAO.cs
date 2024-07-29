@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project1.app.Repository.Entities;
+using Project1.app.Utility;
 
 namespace Project1.app.Repository.DAO;
 
@@ -7,9 +8,14 @@ public class AccountDAO(ApplicationDbContext context) : IDAO<Account>
 {
     private readonly ApplicationDbContext _context = context;
 
-    public void Create(Account item)
+    public void Create(string[] details)
     {
-        _context.Add(item);
+        Account account = new()
+        {
+            Username = details[0],
+            Password = new Password() { Hash = PasswordUtilities.HashPassword(details[1], out byte[] salt), Salt = salt }
+        };
+        _context.Add(account);
         _context.SaveChanges();
     }
 
