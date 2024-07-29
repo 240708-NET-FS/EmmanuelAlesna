@@ -85,7 +85,6 @@ public class StockService(ApplicationDbContext context)
                 {
                     ArrayList x = [];
                     ArrayList y = [];
-                    Console.WriteLine($"PercentInt: {percentInt}");
                     for (int i = 0; i < yearsInt; i++)
                     {
                         x.Add(DateTime.Now.Year + i);

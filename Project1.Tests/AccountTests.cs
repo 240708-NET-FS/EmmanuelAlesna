@@ -2,7 +2,6 @@ using Project1.app.Repository;
 using Project1.app.Repository.DAO;
 using Project1.app.Repository.Entities;
 using Project1.app.Service;
-using Project1.app.Utility;
 
 namespace Project1.Tests;
 

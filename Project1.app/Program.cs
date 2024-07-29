@@ -8,6 +8,7 @@ class Program
 {
     public static void Main(string[] args)
     {
+        Console.Clear();
         using var context = new ApplicationDbContext();
         MainController mainController = new(context);
 

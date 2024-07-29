@@ -5,8 +5,11 @@ namespace Project1.app.Utility;
 
 public static class PasswordUtilities
 {
+  // size of hash and salt
   private const int keySize = 64;
+  // number of times to run encryption algorithm
   private const int iterations = 350000;
+  // specific name of hashing algorithm
   private static readonly HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
   public static string HashPassword(string password, out byte[] salt)
   {

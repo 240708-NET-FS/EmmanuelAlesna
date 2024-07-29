@@ -81,6 +81,7 @@ public class StockController(ApplicationDbContext context)
                         QuitController.Quit();
                         break;
                     default:
+                        Console.WriteLine("Error: please enter a valid number.");
                         break;
                 }
             }
